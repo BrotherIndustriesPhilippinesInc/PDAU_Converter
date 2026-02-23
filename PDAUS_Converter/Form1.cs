@@ -65,10 +65,7 @@ namespace PDAUS_Converter
                 {
                     writer.WriteLine(message);
                 }
-                
             }
-
-     
         }
         private void CheckRequestPDF()
         {
