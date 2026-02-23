@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,34 +12,60 @@ namespace PDAUS_Converter
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
+        /// 
+        private const string LogDirectory = @"\\apbiphsh07\D0_ShareBrotherGroup\19_BPS\02_Application\99_Member\05_ARENGAMA\Endorsement Documents\PDAU";
+
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // 1. Force the app to route UI exceptions to our handler instead of the default dialog
+            // 1. FORBID the default Windows Forms error dialog. This is mandatory for servers.
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
 
-            // 2. Catch exceptions on the main UI thread
-            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+            // 2. Catch UI thread crashes
+            Application.ThreadException += (sender, e) =>
+            {
+                LogToFile("UI Thread Crash: " + e.Exception.Message);
+                Application.Restart();
+            };
 
-            // 3. Catch exceptions on non-UI threads (background tasks)
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            // 3. Catch background thread crashes
+            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
+            {
+                LogToFile("Background Crash: " + ((Exception)e.ExceptionObject).Message);
+                // Application.Restart() doesn't always work reliably from background threads.
+                // Environment.Exit is safer to kill the hung process, but you'd need an external restarter.
+                Application.Restart();
+            };
 
             Application.Run(new Form1());
         }
 
-        static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+        static void LogToFile(string message)
         {
-            // LOG e.Exception HERE!
-            Application.Restart();
-        }
+            try
+            {
+                // Ensure the directory exists before trying to write
+                if (!Directory.Exists(LogDirectory))
+                {
+                    Directory.CreateDirectory(LogDirectory);
+                }
 
-        static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            // LOG (Exception)e.ExceptionObject HERE!
-            Application.Restart();
+                string filePath = Path.Combine(LogDirectory, "PDAUS_CrashLog.txt");
+
+                // Format the log entry with a timestamp and a separator line
+                string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] {message}{Environment.NewLine}{new string('-', 50)}{Environment.NewLine}";
+
+                // AppendAllText opens, writes, and closes the file automatically.
+                File.AppendAllText(filePath, logEntry);
+            }
+            catch
+            {
+                // If the network drive is down, we literally can't log the error.
+                // Swallow this exception. Do NOT throw it, or the crash handler itself will crash.
+            }
         }
     }
 }
