@@ -28,130 +28,132 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panelMain1 = new System.Windows.Forms.Panel();
-            this.timeNow = new System.Windows.Forms.Label();
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.labelHeader = new System.Windows.Forms.Label();
-            this.txtStatus = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip1.SuspendLayout();
-            this.panelMain1.SuspendLayout();
-            this.SuspendLayout();
+            timer1 = new System.Windows.Forms.Timer(components);
+            notifyIcon1 = new System.Windows.Forms.NotifyIcon(components);
+            contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(components);
+            openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            exitProgramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            panelMain1 = new System.Windows.Forms.Panel();
+            txtStatus = new System.Windows.Forms.TextBox();
+            labelHeader = new System.Windows.Forms.Label();
+            timeNow = new System.Windows.Forms.Label();
+            timer2 = new System.Windows.Forms.Timer(components);
+            contextMenuStrip1.SuspendLayout();
+            panelMain1.SuspendLayout();
+            SuspendLayout();
             // 
             // timer1
             // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 10000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            timer1.Enabled = true;
+            timer1.Interval = 10000;
+            timer1.Tick += timer1_Tick;
             // 
             // notifyIcon1
             // 
-            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
-            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
-            this.notifyIcon1.Text = "PDAU Background Worker";
-            this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            notifyIcon1.ContextMenuStrip = contextMenuStrip1;
+            notifyIcon1.Icon = (System.Drawing.Icon)resources.GetObject("notifyIcon1.Icon");
+            notifyIcon1.Text = "PDAU Background Worker";
+            notifyIcon1.Visible = true;
+            notifyIcon1.MouseDoubleClick += notifyIcon1_MouseDoubleClick;
             // 
             // contextMenuStrip1
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.exitProgramToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(143, 48);
+            contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { openToolStripMenuItem, exitProgramToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new System.Drawing.Size(142, 48);
             // 
             // openToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
+            openToolStripMenuItem.Name = "openToolStripMenuItem";
+            openToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // exitProgramToolStripMenuItem
             // 
-            this.exitProgramToolStripMenuItem.Name = "exitProgramToolStripMenuItem";
-            this.exitProgramToolStripMenuItem.Size = new System.Drawing.Size(142, 22);
-            this.exitProgramToolStripMenuItem.Text = "Exit Program";
-            this.exitProgramToolStripMenuItem.Click += new System.EventHandler(this.exitProgramToolStripMenuItem_Click);
+            exitProgramToolStripMenuItem.Name = "exitProgramToolStripMenuItem";
+            exitProgramToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            exitProgramToolStripMenuItem.Text = "Exit Program";
             // 
             // panelMain1
             // 
-            this.panelMain1.Controls.Add(this.txtStatus);
-            this.panelMain1.Controls.Add(this.labelHeader);
-            this.panelMain1.Controls.Add(this.timeNow);
-            this.panelMain1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelMain1.Location = new System.Drawing.Point(0, 0);
-            this.panelMain1.Name = "panelMain1";
-            this.panelMain1.Size = new System.Drawing.Size(423, 301);
-            this.panelMain1.TabIndex = 4;
-            // 
-            // timeNow
-            // 
-            this.timeNow.AutoSize = true;
-            this.timeNow.Font = new System.Drawing.Font("Arial", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.timeNow.Location = new System.Drawing.Point(5, 27);
-            this.timeNow.Name = "timeNow";
-            this.timeNow.Size = new System.Drawing.Size(391, 72);
-            this.timeNow.TabIndex = 3;
-            this.timeNow.Text = "12:00:00 am";
-            this.timeNow.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // timer2
-            // 
-            this.timer2.Enabled = true;
-            this.timer2.Interval = 1000;
-            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
-            // 
-            // labelHeader
-            // 
-            this.labelHeader.AutoSize = true;
-            this.labelHeader.Font = new System.Drawing.Font("Arial", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHeader.ForeColor = System.Drawing.Color.Red;
-            this.labelHeader.Location = new System.Drawing.Point(154, 148);
-            this.labelHeader.Name = "labelHeader";
-            this.labelHeader.Size = new System.Drawing.Size(122, 42);
-            this.labelHeader.TabIndex = 5;
-            this.labelHeader.Text = "Status";
-            this.labelHeader.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            panelMain1.Controls.Add(txtStatus);
+            panelMain1.Controls.Add(labelHeader);
+            panelMain1.Controls.Add(timeNow);
+            panelMain1.Dock = System.Windows.Forms.DockStyle.Fill;
+            panelMain1.Location = new System.Drawing.Point(0, 0);
+            panelMain1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            panelMain1.Name = "panelMain1";
+            panelMain1.Size = new System.Drawing.Size(493, 347);
+            panelMain1.TabIndex = 4;
             // 
             // txtStatus
             // 
-            this.txtStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtStatus.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStatus.Location = new System.Drawing.Point(3, 202);
-            this.txtStatus.Name = "txtStatus";
-            this.txtStatus.ReadOnly = true;
-            this.txtStatus.Size = new System.Drawing.Size(417, 34);
-            this.txtStatus.TabIndex = 0;
-            this.txtStatus.TabStop = false;
-            this.txtStatus.Text = "IDLE";
-            this.txtStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            txtStatus.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            txtStatus.Font = new System.Drawing.Font("Arial", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            txtStatus.Location = new System.Drawing.Point(4, 233);
+            txtStatus.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            txtStatus.Name = "txtStatus";
+            txtStatus.ReadOnly = true;
+            txtStatus.Size = new System.Drawing.Size(486, 34);
+            txtStatus.TabIndex = 0;
+            txtStatus.TabStop = false;
+            txtStatus.Text = "IDLE";
+            txtStatus.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // labelHeader
+            // 
+            labelHeader.AutoSize = true;
+            labelHeader.Font = new System.Drawing.Font("Arial", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            labelHeader.ForeColor = System.Drawing.Color.Red;
+            labelHeader.Location = new System.Drawing.Point(180, 171);
+            labelHeader.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            labelHeader.Name = "labelHeader";
+            labelHeader.Size = new System.Drawing.Size(122, 42);
+            labelHeader.TabIndex = 5;
+            labelHeader.Text = "Status";
+            labelHeader.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // timeNow
+            // 
+            timeNow.AutoSize = true;
+            timeNow.Font = new System.Drawing.Font("Arial", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, 0);
+            timeNow.Location = new System.Drawing.Point(6, 31);
+            timeNow.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            timeNow.Name = "timeNow";
+            timeNow.Size = new System.Drawing.Size(391, 72);
+            timeNow.TabIndex = 3;
+            timeNow.Text = "12:00:00 am";
+            timeNow.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // timer2
+            // 
+            timer2.Enabled = true;
+            timer2.Interval = 1000;
+            timer2.Tick += timer2_Tick;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(423, 301);
-            this.Controls.Add(this.panelMain1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
-            this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PDAU Background Worker";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
-            this.contextMenuStrip1.ResumeLayout(false);
-            this.panelMain1.ResumeLayout(false);
-            this.panelMain1.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(493, 347);
+            Controls.Add(panelMain1);
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
+            Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            MaximizeBox = false;
+            Name = "Form1";
+            StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            Text = "PDAU Background Worker";
+            FormClosing += Form1_FormClosing;
+            Load += Form1_Load;
+            SizeChanged += Form1_SizeChanged;
+            contextMenuStrip1.ResumeLayout(false);
+            panelMain1.ResumeLayout(false);
+            panelMain1.PerformLayout();
+            ResumeLayout(false);
 
         }
 
