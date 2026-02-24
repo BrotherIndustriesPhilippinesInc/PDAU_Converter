@@ -61,7 +61,7 @@ namespace PDAUS_Converter
             catch (SqlException ex)
             {
                 message = $"Log entry at {DateTime.Now}: No database connection.";
-                using (StreamWriter writer = new StreamWriter(filePath, append:true))
+                using (StreamWriter writer = new StreamWriter(filePath, append: true))
                 {
                     writer.WriteLine(message);
                 }
@@ -69,7 +69,7 @@ namespace PDAUS_Converter
         }
         private void CheckRequestPDF()
         {
-           
+
             con.Close();
             con.Open();
             cmd = new SqlCommand("SELECT * FROM SCI_Request WHERE SCIForProcess = 1", con);
@@ -95,89 +95,89 @@ namespace PDAUS_Converter
 
 
                 string outputPDF = Path.GetFileNameWithoutExtension(RequestExcelFile) + ".pdf";
-                string outputPath = @"\\"+webServer+@"\SCI\" + RequestSection + @"\Request\" + RequestID + @"\" + outputPDF;
-                string workbookPath = @"\\"+webServer+@"\SCI\" + RequestSection + @"\Request\" + RequestID + @"\" + RequestExcelFile;
+                string outputPath = @"\\" + webServer + @"\SCI\" + RequestSection + @"\Request\" + RequestID + @"\" + outputPDF;
+                string workbookPath = @"\\" + webServer + @"\SCI\" + RequestSection + @"\Request\" + RequestID + @"\" + RequestExcelFile;
 
                 notifyIcon1.BalloonTipText = "Converting Excel Attachment to PDF";
                 //notifyIcon1.ShowBalloonTip(1000);
 
-             
-                
-                    Excel.Application xlApp = new Excel.Application();
-                    Excel.Workbook xlWorkBook = null;
-                    Excel.Worksheet xlWorkSheet = null;
-                    Excel.Worksheet sheet;
 
-                
-                    xlApp = new Excel.Application();
-                    xlApp.Visible = false;
-                    xlApp.DisplayAlerts = false;
-                    try
+
+                Excel.Application xlApp = new Excel.Application();
+                Excel.Workbook xlWorkBook = null;
+                Excel.Worksheet xlWorkSheet = null;
+                Excel.Worksheet sheet;
+
+
+                xlApp = new Excel.Application();
+                xlApp.Visible = false;
+                xlApp.DisplayAlerts = false;
+                try
+                {
+                    xlWorkBook = xlApp.Workbooks.Open(workbookPath);
+                }
+                catch (Exception ex)
+                {
+                    if (xlWorkSheet != null)
                     {
-                        xlWorkBook = xlApp.Workbooks.Open(workbookPath);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkSheet);
+                        xlWorkSheet = null;
                     }
-                    catch (Exception ex)
+
+                    if (xlWorkBook != null)
                     {
-                        if (xlWorkSheet != null)
-                        {
-                            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkSheet);
-                            xlWorkSheet = null;
-                        }
-
-                        if (xlWorkBook != null)
-                        {
-                            xlWorkBook.Close(false);
-                            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkBook);
-                            xlWorkBook = null;
-                        }
-
-                        if (xlApp != null)
-                        {
-                            xlApp.Quit();
-                            System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
-                            xlApp = null;
-                        }
-
-                        GC.Collect();
-                        GC.WaitForPendingFinalizers();
-                        continue;
-
+                        xlWorkBook.Close(false);
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkBook);
+                        xlWorkBook = null;
                     }
-                    
-                    bool sheetExist;
-                    
-                        try
-                        {
-                             sheet = xlWorkBook.Sheets["Main"] as Excel.Worksheet;
-                             sheetExist = true;
-                             System.Runtime.InteropServices.Marshal.ReleaseComObject(sheet);
-                        }
-                        catch (Exception)
-                        {
-                              sheetExist = false;
-                              System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
-                              System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkBook);
-                        }
 
-                    
-
-                    if (sheetExist) // TRUE
+                    if (xlApp != null)
                     {
-                    xlWorkSheet = xlWorkBook.Worksheets["Main"];
+                        xlApp.Quit();
+                        System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+                        xlApp = null;
+                    }
+
+                    GC.Collect();
+                    GC.WaitForPendingFinalizers();
+                    continue;
+
+                }
+
+                bool sheetExist;
+
+                try
+                {
+                    sheet = xlWorkBook.Sheets["Main"] as Excel.Worksheet;
+                    sheetExist = true;
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(sheet);
+                }
+                catch (Exception)
+                {
+                    sheetExist = false;
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlApp);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(xlWorkBook);
+                }
+
+
+
+                if (sheetExist) // TRUE
+                {
+                    xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets["Main"];
                     xlWorkSheet.Hyperlinks.Delete();
 
                     //SECTION
-                    xlWorkSheet.Cells[3, 4].value = RequestSection;
+                    ((Excel.Range)xlWorkSheet.Cells[3, 4]).Value = RequestSection;
                     //ISSUANCE DATA
-                    xlWorkSheet.Cells[4, 3].value = issuanceDate;
+                    ((Excel.Range)xlWorkSheet.Cells[4, 3]).Value = issuanceDate;
                     //SCI NUMBER
-                    xlWorkSheet.Cells[4, 5].value = sciDocNumber;
+                    ((Excel.Range)xlWorkSheet.Cells[4, 5]).Value = sciDocNumber;
                     //VALIDITY
-                    xlWorkSheet.Cells[4, 8].value = validity;
+                    ((Excel.Range)xlWorkSheet.Cells[4, 8]).Value = validity;
                     //VALIDITY DATE
-                    xlWorkSheet.Cells[4, 11].value = validityDate;
+                    ((Excel.Range)xlWorkSheet.Cells[4, 11]).Value = validityDate;
                     //TITLE
-                    xlWorkSheet.Cells[5, 2].value = title;
+                    ((Excel.Range)xlWorkSheet.Cells[5, 2]).Value = title;
 
                     xlApp.DisplayAlerts = false;
                     xlWorkBook.SaveAs(workbookPath, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing,
@@ -261,7 +261,7 @@ namespace PDAUS_Converter
 
                     txtStatus.Text = "System Auto Declining";
 
-                    Process.Start("http://" + webServer + ":" + portServer + "/pdaus/email/SCIEmail_systemDecline.php?reqID="+RequestID+"");
+                    Process.Start("http://" + webServer + ":" + portServer + "/pdaus/email/SCIEmail_systemDecline.php?reqID=" + RequestID + "");
 
                 }
             }
@@ -293,9 +293,9 @@ namespace PDAUS_Converter
 
 
                 //string outputPDF = Path.GetFileNameWithoutExtension(RequestExcelFile) + ".pdf";
-                string outputPDF = sciDocNumber+"-"+ revNo+ ".pdf";
-                string outputPath = @"\\"+webServer+@"\SCI\" + RequestSection + @"\MainData\" + sciDocNumber + @"\" + outputPDF;
-                string workbookPath = @"\\"+webServer+@"\SCI\" + RequestSection + @"\Request\" + RequestID + @"\" + RequestExcelFile;
+                string outputPDF = sciDocNumber + "-" + revNo + ".pdf";
+                string outputPath = @"\\" + webServer + @"\SCI\" + RequestSection + @"\MainData\" + sciDocNumber + @"\" + outputPDF;
+                string workbookPath = @"\\" + webServer + @"\SCI\" + RequestSection + @"\Request\" + RequestID + @"\" + RequestExcelFile;
 
 
                 cmdApproval = new SqlCommand("SELECT * FROM SCI_Approval WHERE RequestID='" + RequestID + "'", con);
@@ -321,7 +321,7 @@ namespace PDAUS_Converter
 
                     xlApp = new Excel.Application();
                     xlWorkBook = xlApp.Workbooks.Open(workbookPath);
-                    xlWorkSheet = xlWorkBook.Worksheets["Main"];
+                    xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets["Main"];
 
                     try
                     {
@@ -332,21 +332,21 @@ namespace PDAUS_Converter
                         var requestDate = Convert.ToDateTime(RequestDate).ToString("M/d/yyyy");
 
                         //ISSUANCE DATE
-                        xlWorkSheet.Cells[4, 3].value = today;
+                        ((Excel.Range)xlWorkSheet.Cells[4, 3]).Value = today;
                         //MGR ADID
-                        xlWorkSheet.Cells[3, 10].value = MGR_ADID + Environment.NewLine + mgrDate;
+                        ((Excel.Range)xlWorkSheet.Cells[3, 10]).Value = MGR_ADID + Environment.NewLine + mgrDate;
                         //SPV ADID
-                        xlWorkSheet.Cells[3, 11].value = SPV_ADID + Environment.NewLine + spvDate;
+                        ((Excel.Range)xlWorkSheet.Cells[3, 11]).Value = SPV_ADID + Environment.NewLine + spvDate;
                         //REQUESTOR ADID
-                        xlWorkSheet.Cells[3, 12].value = Requestor_ADID + Environment.NewLine + requestDate;
+                        ((Excel.Range)xlWorkSheet.Cells[3, 12]).Value = Requestor_ADID + Environment.NewLine + requestDate;
                         //SCI NO
-                        xlWorkSheet.Cells[4, 5].value = sciDocNumber + "-" + revNo;
+                        ((Excel.Range)xlWorkSheet.Cells[4, 5]).Value = sciDocNumber + "-" + revNo;
                     }
                     catch (Exception ex)
                     {
 
                     }
-                    
+
 
                     try
                     {
@@ -405,7 +405,7 @@ namespace PDAUS_Converter
                         System.Runtime.InteropServices.Marshal.ReleaseComObject(excelWorkbook);
                     }
 
-                    
+
                     try
                     {
                         // Call Excel's native export function (valid in Office 2007 and Office 2010, AFAIK)
@@ -413,11 +413,11 @@ namespace PDAUS_Converter
                     }
                     catch (System.Exception)
                     {
-                             
+
                     }
                     finally
                     {
-                        
+
                         excelWorkbook.Close(0);
                         excelApplication.Quit();
 
@@ -432,12 +432,12 @@ namespace PDAUS_Converter
                     cmd2 = new SqlCommand("UPDATE SCI_Request SET ForFinalSCI= 0 WHERE RequestID ='" + RequestID + "'  ", con);
                     cmd2.ExecuteNonQuery();
 
-                    cmd3 = new SqlCommand("UPDATE SCI_MainData SET SCIFile= '"+ outputPDF + "' WHERE SCINo ='" + sciDocNumber + "'  ", con);
+                    cmd3 = new SqlCommand("UPDATE SCI_MainData SET SCIFile= '" + outputPDF + "' WHERE SCINo ='" + sciDocNumber + "'  ", con);
                     cmd3.ExecuteNonQuery();
 
                 }
             }
-            
+
             con.Close();
             txtStatus.Text = "Idle";
         }
@@ -450,20 +450,20 @@ namespace PDAUS_Converter
 
             xlApp = new Excel.Application();
             xlWorkBook = xlApp.Workbooks.Open("");
-            xlWorkSheet = xlWorkBook.Worksheets["Main"];
+            xlWorkSheet = (Excel.Worksheet)xlWorkBook.Worksheets["Main"];
 
             //SECTION
-            xlWorkSheet.Cells[3,4].value = "PE";
+            ((Excel.Range)xlWorkSheet.Cells[3, 4]).Value = "PE";
             //ISSUANCE DATA
-            xlWorkSheet.Cells[4,3].value = "2023-10-30";
+            ((Excel.Range)xlWorkSheet.Cells[4, 3]).Value = "2023-10-30";
             //SCI NUMBER
-            xlWorkSheet.Cells[4, 5].value = "SCI-BPS-0020-01";
+            ((Excel.Range)xlWorkSheet.Cells[4, 5]).Value = "SCI-BPS-0020-01";
             //VALIDITY
-            xlWorkSheet.Cells[4, 8].value = "Temporary";
+            ((Excel.Range)xlWorkSheet.Cells[4, 8]).Value = "Temporary";
             //VALIDITY DATE
-            xlWorkSheet.Cells[4, 11].value = "2024-10-23";
+            ((Excel.Range)xlWorkSheet.Cells[4, 11]).Value = "2024-10-23";
             //TITLE
-            xlWorkSheet.Cells[5, 2].value = "The 3 Musketeers";
+            ((Excel.Range)xlWorkSheet.Cells[5, 2]).Value = "The 3 Musketeers";
 
 
 
@@ -511,13 +511,13 @@ namespace PDAUS_Converter
             DialogResult result = MessageBox.Show(msg, "Close Confirmation",
                 MessageBoxButtons.YesNo/*Cancel*/, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
-               
-               Application.ExitThread();
+
+                Application.ExitThread();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-           //testOnly();
+            //testOnly();
 
             this.ActiveControl = null;
             timeNow.Text = DateTime.Now.ToString("hh:mm:ss tt").ToUpper();
@@ -550,7 +550,7 @@ namespace PDAUS_Converter
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-        
+
             if (MessageBox.Show("Do you want to close the PDAU Backgroud Worker ?",
                      "Close Confirmation",
                       MessageBoxButtons.YesNo,
@@ -690,7 +690,7 @@ namespace PDAUS_Converter
             string yearNow;
             string monthNow;
             int resultz = Int32.Parse(result);
-            lastNum = resultz % 1000 +1;
+            lastNum = resultz % 1000 + 1;
             yearNow = transnum.ToString().Substring(0, 4);
             monthNow = transnum.ToString().Substring(4, 2);
             MessageBox.Show(lastNum.ToString());
