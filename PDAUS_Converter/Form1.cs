@@ -313,7 +313,7 @@ namespace PDAUS_Converter
                     string MGR_DATE = drApproval["MGR_date"].ToString();
 
                     notifyIcon1.BalloonTipText = "Converting Excel SCI to SCI PDF";
-                    notifyIcon1.ShowBalloonTip(1000);
+                    //notifyIcon1.ShowBalloonTip(1000);
 
                     Excel.Application xlApp = new Excel.Application();
                     Excel.Workbook xlWorkBook;
